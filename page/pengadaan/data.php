@@ -77,7 +77,7 @@
                                              -<?php echo $rowB->judulpengadaan; ?><br /> </td>
                                              <?php } ?>
                                             <td class="text-center">
-                                                <a title="tambah pengadaan" href="index.php?tambah-pengadaan=<?php echo $row->kodepengadaanheader; ?>"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
+                                                <a title="tambah pengadaan" href="index.php?lihat-pengadaan=<?php echo $row->kodepengadaanheader; ?>"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
                                                 <!--
                                                 <a title="update pengadaan" href="index.php?update-pengadaan=<?php echo $row->kodepengadaanheader; ?>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>
                                                 <a title="delete pengadaan" href="index.php?delete-pengadaan=<?php echo $row->kodepengadaanheader; ?>"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>

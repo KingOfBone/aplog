@@ -164,6 +164,8 @@ $( "" ).click(function( eventObject ) {
 					else {
 						if(strpos($qs, 'lihat') !== false && isset($get_value))
 							$filename = "page/$menu/tab-$menu.php";
+						else if(strpos($qs, 'tambah') !== false && isset($get_value))
+							$filename = "page/$menu/tambah.php";
 						else if(strpos($qs, 'update') !== false && isset($get_value))
 							$filename = "page/$menu/update.php";				
 						else 

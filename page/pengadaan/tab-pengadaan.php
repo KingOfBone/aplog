@@ -1,6 +1,6 @@
 <?php
-
-$query = $db->prepare("SELECT * FROM pengadaan WHERE kodepengadaanheader = :pengadaan");
+$varadd       = $_GET["lihat-pengadaan"];
+$query = $db->prepare("SELECT * FROM pengadaanheader WHERE kodepengadaanheader = :pengadaan");
     $query->bindParam(":pengadaan", $get_value);
     $query->execute();
 	$rowuser = $query->fetch();
@@ -39,39 +39,46 @@ $query = $db->prepare("SELECT * FROM pengadaan WHERE kodepengadaanheader = :peng
                                     <?php } ?>
                 </div>
                 <div class="col-md-2">
-                    <a title="tambah pengadaan" href="index.php?tambah-pengadaan=<?php echo $rowuser["kodeheaderpengadaan"];?>" type="submit" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-plus"></i>Tambah Penyerapan</a>
+                    <a title="tambah pengadaan" href="index.php?tambah-pengadaan=<?php echo $rowuser["kodepengadaanheader"];?>" type="submit" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-plus"></i>Tambah Pengadaan</a>
                     <br /><br />
                 </div>
                 <?php
+				
+				
                       $sql="SELECT kontrak.*, pengadaanheader.* FROM kontrak 
                       INNER JOIN pengadaanheader ON kontrak.nmrkontrak = pengadaanheader.nmrkontrak
-                      WHERE kontrak.status = 'aktif' ORDER BY kodekontrak DESC";
-                      $stmt=$db->query($sql);
-                      while($row=$stmt->fetch(PDO::FETCH_OBJ)){ ?>
-           <div class="col-lg-6">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="col-md-4"><label>Nama Pekerjaan</label></div>
-                            <div class="col-md-7">
-                                <textarea class="form-control" disabled="" rows="3" cols="5" type="text" value="<?php  ?>" ><?php echo $row["judulkontrak"] ;?></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="col-md-4"><label>Nilai Kontrak</label></div>
-                            <div class="col-md-7">
-                                <input type="text" class="form-control" disabled="" id="kontrak" onkeyup="onkontrak();" value="<?php echo "Rp ". number_format($row["nilaikontrak"]); ?>" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                      WHERE kontrak.status = 'aktif'";
+					  $query = $db->prepare($sql);
+					  $query->execute();
+					  $row = $query->fetch();
+					  
+                      /*$stmt=$db->query($sql);
+                      while($row=$stmt->fetch(PDO::FETCH_OBJ)){ */?>
+           <div class="row" style="margin-bottom: 10px;">
+		   <div class="col-md-6">
+                <table class="table">
+                <tr>
+                        <th>No Kontrak</th>
+                        <th>:</th>
+                        <td><?php echo $row["nmrkontrak"]; ?></td>
+                 </tr>
+				 
+				 <tr>
+                        <th>Uraian Kontrak</th>
+                        <th>:</th>
+                        <td><?php echo $row["judulkontrak"]; ?></td>
+                 </tr>
+				 
+				  <tr>
+                        <th>Nilai Kontrak</th>
+                        <th>:</th>
+                        <td><?php echo "Rp ". number_format($row["nominalkontrak"]); ?></td>
+                 </tr>
+				 </table>
+            </div>
            </div>
-           <?php } ?>
-           </div>
+          
+          
            <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
@@ -96,11 +103,16 @@ $query = $db->prepare("SELECT * FROM pengadaan WHERE kodepengadaanheader = :peng
                                     </thead>
                                     <tbody>
                                     <?php
+									
+									$no=0;
                                       $sqlA="SELECT kontrak.*, pengadaanheader.* FROM kontrak 
                                       INNER JOIN pengadaanheader ON kontrak.nmrkontrak = pengadaanheader.nmrkontrak
                                       WHERE kontrak.status = 'aktif' ORDER BY kodekontrak DESC";
-                                      $stmtA=$db->query($sqlA);
-                                      while($rowA=$stmtA->fetch(PDO::FETCH_OBJ)) {
+                                      $queryA = $db->prepare($sqlA);
+                					  $queryA->execute();
+                					  $rowA = $queryA->fetch();
+                                      while($rowA=$queryA->fetch(PDO::FETCH_OBJ)) {
+									  $no++;
                                      ?>
                             					<tr>
                                                     <td class="text-center"><?php echo $no; ?></td>
@@ -108,7 +120,7 @@ $query = $db->prepare("SELECT * FROM pengadaan WHERE kodepengadaanheader = :peng
                                                     <td><?php echo $rowA->judulpengadaan; ?></td>
                                                     <td><?php echo $rowA->satuan; ?></td>
                                                     <td><?php echo $rowA->harga; ?></td>
-                                                    <td><?php echo tglindonesia( $rowA->tglpengadaan); ?></td>  
+                                                    <td><?php echo tglindonesia($rowA->tglpengadaan); ?></td>  
                                                     <td class="text-center">
                                                         <a title="update pengadaan" href="index.php?update-pengadaan=<?php echo $rowA->kodeheaderpengadaan; ?>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>
                                                         <a title='Hapus pengadaan' href="#" id="mau_delete=<?php echo "$qs,$peka,". $rowA->$peka .",$qs"; ?>" class="delete"><i class="fa fa-trash-o fa-2x"></i></a>
